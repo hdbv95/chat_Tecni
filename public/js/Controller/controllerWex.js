@@ -95,6 +95,9 @@ async function validarCedula(watsonResultado){
     watsonResultado.input.text=okcedula.cedulaFinal;
     if(okcedula.ok == true){
       console.log("cedula correcta");
+      if(watsonResultado.context.cedula!=undefined){
+        watsonResultado.context.cedula=watsonResultado.input.text;
+      }
     }else{
       console.log("cedula incorrecta");
       watsonResultado.output.generic[0]="Numero de cédula invalido";
