@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 app.use(morgan('dev'));
 
 
-app.use("/cobranzas",pruebaRutas);
+app.use("/vehiculo",pruebaRutas);
 
 io.on('connection', (socket)=>{
 	console.log("USUARIO CONECTADO"+socket.id);

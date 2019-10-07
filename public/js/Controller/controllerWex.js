@@ -34,7 +34,7 @@ var assistant = new watson.AssistantV1({
 controllerWatson.postEnviarMensajeWex =async(req,res)=>{
 
     var mensaje=req.body.texto;
-    var context=new modelWatsonResultado(false,null,null,null,null,null,null,false);
+    var context=new modelWatsonResultado(null,null,null,null,null,null,null,null,null,null,null,null,null,null,false);
     if(req.session.context!=undefined){
       context=req.session.context;
     };
@@ -59,12 +59,17 @@ async function decisionDialogos(watsonResultado,req){
   var entidad=watsonResultado.entities;
   var intencion=watsonResultado.intents;
   console.log(watsonResultado.output.nodes_visited[0]);
-  if (watsonResultado.output.nodes_visited[0] =='slot_8_1569603268764') {
+  if (watsonResultado.output.nodes_visited[0] =='slot_8_1569603268764' || watsonResultado.output.nodes_visited[0] =='slot_5_1569606354157') {
+      
     for (var i in entidad) {
-      if(entidad[i].entity=="MARCA_VEHICILO"){
-        FuncionMarcasModelos(watsonResultado,entidad[i].value);
+        if(entidad[i].entity=="MARCA_VEHICILO" ){
+          FuncionMarcasModelos(watsonResultado,entidad[i].value);
+        }
       }
-    }
+      if(watsonResultado.context.MARCA_VEHICILO!=null){
+         FuncionMarcasModelos(watsonResultado,watsonResultado.context.MARCA_VEHICILO); 
+      }
+    
   }else if (watsonResultado.output.nodes_visited[0] == 'slot_6_1570033774989'||escorrecto==false) {    
     var a= new Date().getFullYear();
     for (var i in entidad) {
@@ -104,142 +109,7 @@ async function validarCedula(watsonResultado){
       watsonResultado.output.text="Numero de cédula invalido";
     }
 }
-function ConsultaPrestamo(watsonResultado){
-  watsonResultado.output.generic[0]=[];
-  var token=watsonResultado.context.token;
-  var json=jwt.decodeToken(token);
-  var prestamo={response_type:"option",title:"Selecciona un prestamo para continuar",options: []}
 
-  for(var i in json.prestamo){
-    prestamo.options.push({
-      label:json.prestamo[i].institucion+" numero de prestamo: "+json.prestamo[i].preNumero,
-      value:{ input:{ text: json.prestamo[i].preNumero}}
-   });
-  }
-
-  
- return prestamo;
-}
-async function SeleccionarPrestamo(watsonResultado,req){
-  var token=watsonResultado.context.token;
-  var json=jwt.decodeToken(token);
-  var respuestaText={response_type: "text",text: ""}
-
-  for(var i in watsonResultado.entities){
-    if(watsonResultado.entities[i].entity=="sys-number"){
-      var valorPrestamo=watsonResultado.entities[i].value;
-      for(var i=0; i<json.prestamo.length;i++){
-    
-        if(json.prestamo[i].preNumero==valorPrestamo){
-         watsonResultado.context.prestamos=json.prestamo[i];
-         watsonResultado.context.numeroPrestamo=valorPrestamo;
-         respuestaText.text= await "El saldo pendiente para el prestamo #"+valorPrestamo+
-          " de la institucion "+json.prestamo[i].institucion+
-          " es de $"+json.prestamo[i].preValorxPagar+
-          ", la fecha de pago es "+moment(json.prestamo[i].preFechaVencimiento).add(1,"days").format("YYYY-MM-DD")+
-          ", y los dias de atraso son "+json.prestamo[i].DIAS+" dias, ¿te gustaria cancelar?";
-          watsonResultado.output.generic[0]=respuestaText;
-          watsonResultado.output.text[0]=respuestaText;
-          watsonResultado.context.system.dialog_stack[0]=[]; 
-          watsonResultado.context.system.dialog_stack[0]={"dialog_node": "response_3_1567544098207"};        
-          break;
-        }else{
-          watsonResultado.context.numeroPrestamo=null;
-          
-        }
-    }
-  }
-
-
-
-
-
-  };
-
-  
-}
-function redondeo(numero, decimales)
-{
-var flotante = parseFloat(numero);
-var resultado = Math.round(flotante*Math.pow(10,decimales))/Math.pow(10,decimales);
-return resultado;
-}
-//funciones para actualizar
-async function actualizacionCorreo(correo,watsonResultado){
-  var token = watsonResultado.context.token;
-  var json = jwt.decodeToken(token);
-  await persona.actualizarCorreo(json.Num_Identificacion, correo)
-} 
-async function actualizacionTelefono(numTelf,campTelf,watsonResultado){
-  var token = watsonResultado.context.token;
-  var json = jwt.decodeToken(token);
-  await persona.actualizarTelefono(json.Num_Identificacion, numTelf,campTelf);
-} 
-async function actualizacionDireccion(calleP,calleS,numCasa,watsonResultado){
-  var token = watsonResultado.context.token;
-  var json = jwt.decodeToken(token);
-  await persona.actualizarDireccion(json.Num_Identificacion, calleP,calleS,numCasa,watsonResultado.context.dirID);
-}  
-async function ConsultaDireccion(watsonResultado){
-  var token=watsonResultado.context.token;
-  var json=jwt.decodeToken(token);
-  var direcciones={title:"Selecciona una direccion para continuar",options: []};
-  var dir = await persona.consultarDireccion(json.Num_Identificacion);
-  for(var i in dir){
-    direcciones.options.push({
-      label:dir[i].dirCallePrincipal+", "+dir[i].dirCalleSecundaria+", "+dir[i].dirNumeroCasa,
-      value:{ input:{ text: dir[i].dirID}}
-   });
-  }
-  return direcciones;
-}
-async function SeleccionarDireccion(watsonResultado){
-  var dir=await watsonResultado.context.direcciones
-  for(var i in dir.options){
-    if(dir.options[i].value.input.text==watsonResultado.input.text){
-     watsonResultado.context.dirID = watsonResultado.input.text;
-     watsonResultado.output.text[0]= await "La direccion a actualizar es:"+dir.options[i].label+" Por favor utilice el formato [Calle Principal, Calle Secundaria, Numero de casa(xxx-xxx)]";
-     watsonResultado.output.generic[0].text=await "La direccion a actualizar es:"+dir.options[i].label+" Por favor utilice el formato [Calle Principal, Calle Secundaria, Numero de casa(xxx-xxx)]";
-    }
-  };
-}
-//funciones lugares de pago
-async function SeleccionarPrestamoLP(watsonResultado){
-  var token=watsonResultado.context.token;
-  var json=jwt.decodeToken(token);
-  var respuestaText={response_type: "text",text: ""}
-  for(var i in watsonResultado.entities){
-    if(watsonResultado.entities[i].entity=="sys-number"){
-      var valorPrestamo=watsonResultado.entities[i].value;
-      for(var i=0; i<json.prestamo.length;i++){
-        if(json.prestamo[i].preNumero==valorPrestamo){
-         watsonResultado.context.prestamos=json.prestamo[i];
-         watsonResultado.context.numeroPrestamo=valorPrestamo;
-         respuestaText.response_type="link";
-         respuestaText.text= await "https://www.google.com.ec/maps/search/"+json.prestamo[i].institucion.replace(' ','+');
-          watsonResultado.output.generic[0]=respuestaText;
-          watsonResultado.output.text[0]=respuestaText;
-          watsonResultado.context.system.dialog_stack[0]=[];
-          watsonResultado.context.system.dialog_stack[0]={"dialog_node": "root"};
-          break;
-        }else{
-          watsonResultado.context.numeroPrestamo=null;
-        }
-      }
-    }
-  };
-}
-//actualizar compromiso de pago
-async function actualizacionCompromisoPago(watsonResultado ){
-  var fecha;
-  for(var i in watsonResultado.entities){
-    if(watsonResultado.entities[i].entity=="sys-date"){
-      fecha =watsonResultado.entities[i].value
-    }
-     
-  }
-  await prestamo.CompromisoPago(fecha,watsonResultado.context.numeroPrestamo);
-} 
 
 //Marcas y modelos
 function FuncionMarcasModelos(watsonResultado,value){

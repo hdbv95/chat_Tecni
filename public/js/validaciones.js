@@ -183,4 +183,33 @@ var validCedula={
    
   }  
 
+validaciones.leerReglasTecniseguros=function(marca,modelo){
+vardatos=JSON.parse(fs.readFileSync("REGLAS_TECNI.json", 'utf-8'));
+varjsonResult=[]
+for(vari in datos){
+if(datos[i].Marca==marca){
+for(var j in datos[i].Aseguradoras){
+varjson={"Marca":marca,"Modelo":modelo,"Aseguradora":null,"MontoMaximo":0, "tasa":0 , "cuotas":0 , "Coberturas":null, "Exclusiones":null}
+json.Aseguradora=datos[i].Aseguradoras[j].Nombre
+for(var k in datos[i].Aseguradoras[j].Resultado){
+letresult=datos[i].Aseguradoras[j].Resultado[k].Modelos.find(buscar=>buscar==modelo);
+if(result!=undefined&&result!=null&&result==modelo){
+json.MontoMaximo=datos[i].Aseguradoras[j].Resultado[k].MontoMaximo;
+json.tasa=datos[i].Aseguradoras[j].Resultado[k].tasa;
+json.cuotas=datos[i].Aseguradoras[j].Resultado[k].cuotas;
+json.Coberturas=datos[i].Aseguradoras[j].Resultado[k].Coberturas;
+json.Exclusiones=datos[i].Aseguradoras[j].Resultado[k].Exclusiones;
+jsonResult.push(json);
+            }
+          }
+
+        }
+
+      }
+    }
+returnjsonResult;
+  }
+
+
+
   module.exports=validaciones
