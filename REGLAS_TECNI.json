@@ -1,0 +1,18 @@
+[{
+"Marca":"CHEVROLET","Aseguradoras":[
+            { "Nombre":"SEGUROS EQUINOCCIAL","Resultado":
+            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["A","",""]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["B","",""]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["C","",""]}]
+            },
+            { "Nombre":"MAPFRE","Resultado":
+            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["A","",""]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["B","",""]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["C","",""]}]
+            }
+        ]
+}
+ 
+]
+
+
