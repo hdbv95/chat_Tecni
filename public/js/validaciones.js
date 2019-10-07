@@ -1,4 +1,5 @@
 const configMensaje = require('../js/mail');
+var fs=require("fs");
 var validaciones={};
 
 var validCedula={
@@ -184,15 +185,16 @@ var validCedula={
   }  
 
 validaciones.leerReglasTecniseguros=function(marca,modelo){
-vardatos=JSON.parse(fs.readFileSync("REGLAS_TECNI.json", 'utf-8'));
-varjsonResult=[]
-for(vari in datos){
+  console.log("entro");
+var datos=JSON.parse(fs.readFileSync("REGLAS_TECNI.json", 'utf-8'));
+var jsonResult=[]
+for(var i in datos){
 if(datos[i].Marca==marca){
 for(var j in datos[i].Aseguradoras){
-varjson={"Marca":marca,"Modelo":modelo,"Aseguradora":null,"MontoMaximo":0, "tasa":0 , "cuotas":0 , "Coberturas":null, "Exclusiones":null}
+var json={"Marca":marca,"Modelo":modelo,"Aseguradora":null,"MontoMaximo":0, "tasa":0 , "cuotas":0 , "Coberturas":null, "Exclusiones":null}
 json.Aseguradora=datos[i].Aseguradoras[j].Nombre
 for(var k in datos[i].Aseguradoras[j].Resultado){
-letresult=datos[i].Aseguradoras[j].Resultado[k].Modelos.find(buscar=>buscar==modelo);
+let result=datos[i].Aseguradoras[j].Resultado[k].Modelos.find(buscar=>buscar==modelo);
 if(result!=undefined&&result!=null&&result==modelo){
 json.MontoMaximo=datos[i].Aseguradoras[j].Resultado[k].MontoMaximo;
 json.tasa=datos[i].Aseguradoras[j].Resultado[k].tasa;
@@ -207,7 +209,7 @@ jsonResult.push(json);
 
       }
     }
-returnjsonResult;
+return jsonResult;
   }
 
 
