@@ -60,7 +60,8 @@ async function decisionDialogos(watsonResultado,req){
   var entidad=watsonResultado.entities;
   var intencion=watsonResultado.intents;
   console.log(watsonResultado.output.nodes_visited[0]);
-  if (watsonResultado.output.nodes_visited[0] =='slot_8_1569603268764' || watsonResultado.output.nodes_visited[0] =='slot_5_1569606354157') {
+  //slots con dialoge_node
+  if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {
       
     for (var i in entidad) {
         if(entidad[i].entity=="MARCA_VEHICILO" ){
@@ -71,7 +72,7 @@ async function decisionDialogos(watsonResultado,req){
          FuncionMarcasModelos(watsonResultado,watsonResultado.context.MARCA_VEHICILO); 
       }
     
-  }else if (watsonResultado.output.nodes_visited[0] == 'slot_6_1570033774989'||escorrecto==false) {    
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989'||escorrecto==false) {    
    //fecha del vehiculo
     var a= new Date().getFullYear();
     for (var i in entidad) {
@@ -85,7 +86,7 @@ async function decisionDialogos(watsonResultado,req){
         }
       }      
     }
-  }else if (watsonResultado.output.nodes_visited[0] ==  'slot_8_1570037277161' || cedula == false) {
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false) {
    //validar cedula
     for(var i in entidad){
       if (entidad[i].entity=="documentos" && entidad[i].value=="doc") {
