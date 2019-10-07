@@ -16,7 +16,8 @@ var tramos={
             "database": "MDCliente"
             } 
     },mongo:{
-        url:'mongodb://40.117.183.46:27017/telefonica',
+        url:'mongodb://40.117.183.46:27017/WatsonVehiculos',
+        bd:"ChatTecniseguros",
         user:"" ,//"amin",
         pwd:"" //"123"
     }

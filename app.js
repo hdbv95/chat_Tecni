@@ -8,10 +8,19 @@ var app = express();
 var cors = require('cors') 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+var mongoose=require('mongoose');
+var credencialesWex=require('./public/js/Conexion/credencialesWex');
 var appEnv = cfenv.getAppEnv();
 
 var usuarios = [];
 var salas = [];
+
+
+mongoose.connect(credencialesWex.mongo.url,{dbName: credencialesWex.mongo.bd ,useNewUrlParser: true}
+    ).then(()=>{console.log('successfully connected to MongoDB');/*mongod.cfg cambiar bindIp: de 127.0.0.1 a 0.0.0.0 */}).catch(err=>{
+      console.log("error");
+      //process.exit();
+    });
 
 
 // trust first proxy 
