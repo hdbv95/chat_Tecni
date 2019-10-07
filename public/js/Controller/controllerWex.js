@@ -10,6 +10,7 @@ const util = require('util');
 const controllerWatson={};
 const anoComercial=360;
 var escorrecto=false;
+var cedula=false;
 const listaMarcasModelos = {"CHEVROLET":["11000","4X4","ALTO","ASKA","ASTRA","AVALANCE","AVEO","BLAZER","C1500","CAMARO","CAMINO","CAPTIVA","CAVALIER","CHASIS","CHEVYTAXI","CHEYENNE","CHR","CK","COBALT","CORSA","CRUZE","CY251L","CYZ51L","LUV","ENJOY","ESTEEM","EXR","FORSA","FRR","FSR","FTR","FVR","FVZ","GEMINI","GRAN-BLAZER","GRAND-VITARA","GRAND-VITARA-SZ","ISUZU","JIMNY","KODIAK","LUV","MALIBU","MICROBUS","N200","N300","NHR","NKR","NLR","NMR","NMR85H","NMR85HC","NPR","NPR71L","NPR71P","NQR","NQR71L","NQR85L","OPTRA","ORLANDO","RODEO","SAIL","SAN-REMO","SILVERADO","SPARK","SPORT SIDE","SUPER BRIGADIER","SUPER-CARRY","SWIFT","TAHOE","TAXI","TRACKER","TRACTO-CAMION","TRAILBLAZER","TROOPER","VANN300","VECTRA","VITARA","VIVANT","ZAFIRA","GRAND VITARA","TRAIL BLAZER","GRAND BLAZER","TRAIL","NP200","CHASIS CABINADO NKR","SAMURAI","TRAX","CYZ51P","D-MAX","CHASIS TORPEDO","ELF","SONIC","EQUINOX","NMR 85H PARTNER","BEAT","CAVALIER SPORT LT"],
 "KIA":["CADENZA","CARENS","CARNIVAL","CERATO","CERES","K2700","K3000","KIA","MAGENTIS","OPIRUS","OPTIMA","PALIO","PICANTO","PREGIO","RIO","RONDO","SORENTO","SOUL","SPECTRA","SPORTAGE","XCITE","MOHAVE","ÓPTIMA","QUORIS","GRAND PREGIO","RÍO","BESTA","NIRO","STINGER","X3"],
 "RENAULT":["CLIO","DUSTER","GT","KANGOO","KERAX","KOLES","LAGUNA","MEGANE","LOGAN","SANDERO"],
@@ -60,12 +61,14 @@ async function decisionDialogos(watsonResultado,req){
   var intencion=watsonResultado.intents;
   console.log(watsonResultado.output.nodes_visited[0]);
   if (watsonResultado.output.nodes_visited[0] =='slot_8_1569603268764') {
+    //marca del vehiculo
     for (var i in entidad) {
       if(entidad[i].entity=="MARCA_VEHICILO"){
         FuncionMarcasModelos(watsonResultado,entidad[i].value);
       }
     }
   }else if (watsonResultado.output.nodes_visited[0] == 'slot_6_1570033774989'||escorrecto==false) {    
+   //fecha del vehiculo
     var a= new Date().getFullYear();
     for (var i in entidad) {
       if (entidad[i].entity=='sys-date') {
@@ -78,30 +81,44 @@ async function decisionDialogos(watsonResultado,req){
         }
       }      
     }
-  }else if (watsonResultado.output.nodes_visited[0] ==  'slot_4_1570036931289') {
+  }else if (watsonResultado.output.nodes_visited[0] ==  'slot_8_1570037277161' || cedula == false) {
+   //validar cedula
     for(var i in entidad){
-      if (entidad[i].value=="#doc" || entidad[i].value=="cédula") {
+      if (entidad[i].entity=="documentos" && entidad[i].value=="doc") {
         var expresion = /([A-z])/g;
         var hallado = watsonResultado.input.text.replace(expresion,'').trim();    
         watsonResultado.input.text=hallado;
-        await validarCedula(watsonResultado);        
+        cedula = await validarCedula(watsonResultado);
+        if (cedula==false) {
+          watsonResultado.context.cedula=null;
+          watsonResultado.output.generic[0]="ingrese un numero de cedula valido";
+          watsonResultado.output.text="ingrese un numero de cedula valido";
+          watsonResultado.context.system.dialog_stack[0]={"dialog_node": "slot_8_1570037277161", "state": "in_progress"};           
+        }
       }
     }
   }
+}
+function CalcularPrima(watsonResultado){
+  if (watsonResultado.context.Ano_Modelo) {
+    
+  }
+  watsonResultado.context.primaNeta=watsonResultado.context.tasa*watsonResultado.context.Monto_Vehiculo;
+  watsonResultado.context.primeCuota=watsonResultado.context.primaNeta/watsonResultado.context.cuotas;
 }
 //valida el nuero de cedula
 async function validarCedula(watsonResultado){
     var okcedula = validaciones.validarLongitudCedula(watsonResultado.input.text);
     watsonResultado.input.text=okcedula.cedulaFinal;
     if(okcedula.ok == true){
-      console.log("cedula correcta");
       if(watsonResultado.context.cedula!=undefined){
         watsonResultado.context.cedula=watsonResultado.input.text;
+        return true;
       }
     }else{
-      console.log("cedula incorrecta");
       watsonResultado.output.generic[0]="Numero de cédula invalido";
       watsonResultado.output.text="Numero de cédula invalido";
+      return false;
     }
 }
 function ConsultaPrestamo(watsonResultado){
