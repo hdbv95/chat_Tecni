@@ -33,8 +33,7 @@ var assistant = new watson.AssistantV1({
 
 
 controllerWatson.postEnviarMensajeWex =async(req,res)=>{
-
-    var mensaje=req.body.texto;
+  var mensaje=req.body.texto;
     var context=new modelWatsonResultado(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,false);
     if(req.session.context!=undefined){
       context=req.session.context;
@@ -42,7 +41,6 @@ controllerWatson.postEnviarMensajeWex =async(req,res)=>{
     var resWatson=await consultaWatson(mensaje,context,req);
     await decisionDialogos(resWatson,req);
     res.send({resWatson});
-    
 }
 async function consultaWatson(mensaje,contexto,req){
   var watsonPromise = util.promisify(assistant.message.bind(assistant));
@@ -53,7 +51,6 @@ async function consultaWatson(mensaje,contexto,req){
   }); 
   req.session.context=conversacion.context;
   return conversacion;
-  
 }
 //funciones para consultar prestamos
 async function decisionDialogos(watsonResultado,req){
@@ -61,7 +58,7 @@ async function decisionDialogos(watsonResultado,req){
   var intencion=watsonResultado.intents;
   console.log(watsonResultado.output.nodes_visited[0]);
   //slots con dialoge_node
-  if (watsonResultado.context.system.dialog_node.dialog_stack[0] =='slot_8_1569603268764' || watsonResultado.context.system.dialog_node.dialog_stack[0] =='slot_5_1569606354157') {
+  if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {
       
     for (var i in entidad) {
         if(entidad[i].entity=="MARCA_VEHICILO" ){
@@ -72,7 +69,7 @@ async function decisionDialogos(watsonResultado,req){
          FuncionMarcasModelos(watsonResultado,watsonResultado.context.MARCA_VEHICILO); 
       }
     
-  }else if (watsonResultado.context.system.dialog_node.dialog_stack[0] == 'slot_6_1570033774989'||escorrecto==false) {    
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989'||escorrecto==false) {    
    //fecha del vehiculo
     var a= new Date().getFullYear();
     for (var i in entidad) {
@@ -86,7 +83,7 @@ async function decisionDialogos(watsonResultado,req){
         }
       }      
     }
-  }else if (watsonResultado.output.nodes_visited[0] ==  'slot_8_1570037277161' || cedula == false) {
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false || watsonResultado.context.system.dialog_stack[0].dialog_node=="node_10_1566352695700") {
    //validar cedula
     for(var i in entidad){
       if (entidad[i].entity=="documentos" && entidad[i].value=="doc") {
@@ -100,17 +97,29 @@ async function decisionDialogos(watsonResultado,req){
           watsonResultado.output.text="ingrese un numero de cedula valido";
           watsonResultado.context.system.dialog_stack[0]={"dialog_node": "slot_8_1570037277161", "state": "in_progress"};           
         }
+        else{
+          await CalcularPrima(watsonResultado);
+        }
       }
     }
   }
 }
-function CalcularPrima(watsonResultado){
-  if (watsonResultado.context.Ano_Modelo) {
+
+//calculo de prima
+async function CalcularPrima(watsonResultado){
+  watsonResultado.context.modelo= await watsonResultado.context.modelo.replace(/[\(\)]+/g,"");
+  console.log(watsonResultado.context.modelo);
+  var a=validaciones.leerReglasTecniseguros(watsonResultado.context.MARCA_VEHICILO,watsonResultado.context.modelo)
+  console.log(a);
+
+  //con que nodo se realiza este paso slot_8_1570036729147   slot_4_1570036931289
+  /* if (watsonResultado.context.Ano_Modelo) {
     
   }
   watsonResultado.context.primaNeta=watsonResultado.context.tasa*watsonResultado.context.Monto_Vehiculo;
-  watsonResultado.context.primeCuota=watsonResultado.context.primaNeta/watsonResultado.context.cuotas;
+  watsonResultado.context.primeCuota=watsonResultado.context.primaNeta/watsonResultado.context.cuotas; */
 }
+
 //valida el nuero de cedula
 async function validarCedula(watsonResultado){
     var okcedula = validaciones.validarLongitudCedula(watsonResultado.input.text);
@@ -127,7 +136,6 @@ async function validarCedula(watsonResultado){
     }
 }
 
-
 //Marcas y modelos
 function FuncionMarcasModelos(watsonResultado,value){
   var jsonMarcasModelos= JsonFind(listaMarcasModelos);
@@ -140,6 +148,7 @@ function FuncionMarcasModelos(watsonResultado,value){
   }
   watsonResultado.output.generic=MarcaModelo;
 }
+
 //verificar año
 function verificarA(value,a){
   if (Math.abs(a-17)<=value && value<=(a+1)) {return true;}

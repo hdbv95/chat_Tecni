@@ -1,14 +1,14 @@
 [{
 "Marca":"CHEVROLET","Aseguradoras":[
             { "Nombre":"SEGUROS EQUINOCCIAL","Resultado":
-            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["A","",""]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["B","",""]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["C","",""]}]
+            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["11000","4X4","ALTO"]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["ASKA","ASTRA","AVALANCE"]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["AVEO","BLAZER","C1500"]}]
             },
             { "Nombre":"MAPFRE","Resultado":
-            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["A","",""]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["B","",""]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["C","",""]}]
+            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAMARO","CAMINO","CAPTIVA"]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAVALIER","CHASIS","CHEVYTAXI"]},
+            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CHEYENNE","CHR","CK"]}]
             }
         ]
 }
