@@ -108,7 +108,7 @@ async function CalcularPrima(watsonResultado){
   watsonResultado.context.MARCA_VEHICILO="CHEVROLET";
   watsonResultado.context.modelo="(1100)";
   watsonResultado.context.modelo= await watsonResultado.context.modelo.replace(/[\(\)]+/g,"");
-  var a= await validaciones.leerReglasTecniseguros("CHEVROLET","1100")
+  var a= await validaciones.leerReglasTecniseguros("CHEVROLET","11000")
   console.log("AQUI");
   console.log(a);
   //con que nodo se realiza este paso slot_8_1570036729147   slot_4_1570036931289
