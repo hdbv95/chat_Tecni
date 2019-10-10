@@ -184,33 +184,44 @@ var validCedula={
    
   }  
 
-validaciones.leerReglasTecniseguros=function(marca,modelo){
-  console.log("entro");
-var datos=JSON.parse(fs.readFileSync("REGLAS_TECNI.json", 'utf-8'));
-var jsonResult=[]
-for(var i in datos){
-if(datos[i].Marca==marca){
-for(var j in datos[i].Aseguradoras){
-var json={"Marca":marca,"Modelo":modelo,"Aseguradora":null,"MontoMaximo":0, "tasa":0 , "cuotas":0 , "Coberturas":null, "Exclusiones":null}
-json.Aseguradora=datos[i].Aseguradoras[j].Nombre
-for(var k in datos[i].Aseguradoras[j].Resultado){
-let result=datos[i].Aseguradoras[j].Resultado[k].Modelos.find(buscar=>buscar==modelo);
-if(result!=undefined&&result!=null&&result==modelo){
-json.MontoMaximo=datos[i].Aseguradoras[j].Resultado[k].MontoMaximo;
-json.tasa=datos[i].Aseguradoras[j].Resultado[k].tasa;
-json.cuotas=datos[i].Aseguradoras[j].Resultado[k].cuotas;
-json.Coberturas=datos[i].Aseguradoras[j].Resultado[k].Coberturas;
-json.Exclusiones=datos[i].Aseguradoras[j].Resultado[k].Exclusiones;
-jsonResult.push(json);
-            }
-          }
-
+  validaciones.leerReglasTecniseguros= function(marca,modelo){
+    var datos=JSON.parse(fs.readFileSync("REGLAS_TECNI.json", 'utf-8'));
+    var jsonResult=[]
+    for(var i in datos){
+    if(datos[i].Marca==marca){
+    for(var j in datos[i].Aseguradoras){
+    var json={"Marca":marca,"Modelo":modelo,"Aseguradora":null,"MontoMaximo":0, "tasa":0 , "cuotas":0 , "Coberturas":null, "Exclusiones":null}
+    json.Aseguradora=datos[i].Aseguradoras[j].Nombre
+    for(var k in datos[i].Aseguradoras[j].Resultado){
+      let result=null;
+      for(var z in datos[i].Aseguradoras[j].Resultado[k].Modelos){
+        if(datos[i].Aseguradoras[j].Resultado[k].Modelos[z]==modelo){
+          console.log("201");
+          console.log(datos[i]);
+          result=datos[i].Aseguradoras[j].Resultado[k].Modelos[z];
         }
-
       }
-    }
-return jsonResult;
-  }
+     
+    if(result!=undefined && result!=null && result==modelo){
+    json.MontoMaximo=datos[i].Aseguradoras[j].Resultado[k].MontoMaximo;
+    json.tasa=datos[i].Aseguradoras[j].Resultado[k].tasa;
+    json.cuotas=datos[i].Aseguradoras[j].Resultado[k].cuotas;
+    json.Coberturas=datos[i].Aseguradoras[j].Resultado[k].Coberturas;
+    json.Exclusiones=datos[i].Aseguradoras[j].Resultado[k].Exclusiones;
+    console.log("213");
+    console.log(json);
+    jsonResult.push(json);
+     
+                }
+              }
+     
+            }
+     
+          }
+        }
+        console.log(jsonResult);
+    return jsonResult;
+}
 
 
 

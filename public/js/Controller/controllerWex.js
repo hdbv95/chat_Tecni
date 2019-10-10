@@ -24,7 +24,6 @@ const listaMarcasModelos = {"CHEVROLET":["11000","4X4","ALTO","ASKA","ASTRA","AV
 "otro":""};
 
 
-
 var assistant = new watson.AssistantV1({
   iam_apikey: credencialesWex.principal.wconv_apikey,
   version: credencialesWex.principal.wconv_version_date,
@@ -58,7 +57,7 @@ async function decisionDialogos(watsonResultado,req){
   var intencion=watsonResultado.intents;
   console.log(watsonResultado.output.nodes_visited[0]);
   //slots con dialoge_node
-  if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {
+  /* if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {
       
     for (var i in entidad) {
         if(entidad[i].entity=="MARCA_VEHICILO" ){
@@ -68,7 +67,6 @@ async function decisionDialogos(watsonResultado,req){
       if(watsonResultado.context.MARCA_VEHICILO!=null){
          FuncionMarcasModelos(watsonResultado,watsonResultado.context.MARCA_VEHICILO); 
       }
-    
   }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989'||escorrecto==false) {    
    //fecha del vehiculo
     var a= new Date().getFullYear();
@@ -83,7 +81,7 @@ async function decisionDialogos(watsonResultado,req){
         }
       }      
     }
-  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false || watsonResultado.context.system.dialog_stack[0].dialog_node=="node_10_1566352695700") {
+  } else  */if (watsonResultado.output.nodes_visited[0]=="node_10_1566352695700" /* watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false */) {
    //validar cedula
     for(var i in entidad){
       if (entidad[i].entity=="documentos" && entidad[i].value=="doc") {
@@ -107,11 +105,12 @@ async function decisionDialogos(watsonResultado,req){
 
 //calculo de prima
 async function CalcularPrima(watsonResultado){
+  watsonResultado.context.MARCA_VEHICILO="CHEVROLET";
+  watsonResultado.context.modelo="(1100)";
   watsonResultado.context.modelo= await watsonResultado.context.modelo.replace(/[\(\)]+/g,"");
-  console.log(watsonResultado.context.modelo);
-  var a=validaciones.leerReglasTecniseguros(watsonResultado.context.MARCA_VEHICILO,watsonResultado.context.modelo)
+  var a= await validaciones.leerReglasTecniseguros("CHEVROLET","1100")
+  console.log("AQUI");
   console.log(a);
-
   //con que nodo se realiza este paso slot_8_1570036729147   slot_4_1570036931289
   /* if (watsonResultado.context.Ano_Modelo) {
     
