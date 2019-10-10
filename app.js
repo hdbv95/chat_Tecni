@@ -179,39 +179,39 @@ server.listen(appEnv.port, '0.0.0.0', function() {
 });
 
 bot.on('message', msg => {
-
-	Request.post({
-		"headers": { "content-type": "application/json" },
-		"url": "http://localhost:6001/vehiculo/enviarMensaje",
-		"body": JSON.stringify({
-			"texto": msg.text,
-			"id": msg.chat.id
-		})
-	}, async(error, response, body) => {
-		if(error) {
-			console.log("error");
-			return console.dir(error);
-		}
-
+    Request.post({
+        "headers": { "content-type": "application/json" },
+        "url": "http://localhost:6001/vehiculo/enviarMensaje",
+        "body": JSON.stringify({
+            "texto": msg.text,
+            "id": msg.chat.id
+        })
+    }, async(error, response, body) => {
+        if(error) {
+            console.log("error");
+            return console.dir(error);
+        }
+ 
 		var output=await JSON.parse(body).resWatson.output;
-		for(var i in output.generic){
-			if(output.generic[i].response_type=="text"){
-				await bot.sendMessage(msg.chat.id,output.generic[i].text);  
-			}else if(output.generic[i].response_type=="option"){
-				let replyOptions = {
-					reply_markup: {
-						resize_keyboard: true,
-						one_time_keyboard: true,
-						keyboard: [],
-					},
-				};
-				
-				for(var j in output.generic[i].options){
-					replyOptions.reply_markup.keyboard.push([output.generic[i].options[j].label]);
-				}
-				await bot.sendMessage(msg.chat.id,output.generic[i].title,replyOptions); 
-				
-			}
-		}
-	});
+		console.log(await JSON.parse(body).resWatson);
+        for(var i in output.generic){
+            if(output.generic[i].response_type=="text"){
+                await bot.sendMessage(msg.chat.id,output.generic[i].text);  
+            }else if(output.generic[i].response_type=="option"){
+                let replyOptions = {
+                    reply_markup: {
+                        resize_keyboard: true,
+                        one_time_keyboard: true,
+                        keyboard: [],
+                    },
+                };
+                
+                for(var j in output.generic[i].options){
+                    replyOptions.reply_markup.keyboard.push([output.generic[i].options[j].label]);
+                }
+                await bot.sendMessage(msg.chat.id,output.generic[i].title,replyOptions); 
+                
+            }
+        }
+    });
   });
