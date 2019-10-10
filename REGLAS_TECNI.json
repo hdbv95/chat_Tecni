@@ -6,7 +6,7 @@
             {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["AVEO","BLAZER","C1500"]}]
             },
             { "Nombre":"MAPFRE","Resultado":
-            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAMARO","CAMINO","CAPTIVA"]},
+            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["11000","CAMINO","CAPTIVA"]},
             {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAVALIER","CHASIS","CHEVYTAXI"]},
             {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CHEYENNE","CHR","CK"]}]
             }

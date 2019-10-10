@@ -196,8 +196,6 @@ var validCedula={
       let result=null;
       for(var z in datos[i].Aseguradoras[j].Resultado[k].Modelos){
         if(datos[i].Aseguradoras[j].Resultado[k].Modelos[z]==modelo){
-          console.log("201");
-          console.log(datos[i]);
           result=datos[i].Aseguradoras[j].Resultado[k].Modelos[z];
         }
       }
@@ -208,8 +206,6 @@ var validCedula={
     json.cuotas=datos[i].Aseguradoras[j].Resultado[k].cuotas;
     json.Coberturas=datos[i].Aseguradoras[j].Resultado[k].Coberturas;
     json.Exclusiones=datos[i].Aseguradoras[j].Resultado[k].Exclusiones;
-    console.log("213");
-    console.log(json);
     jsonResult.push(json);
      
                 }
@@ -219,7 +215,6 @@ var validCedula={
      
           }
         }
-        console.log(jsonResult);
     return jsonResult;
 }
 

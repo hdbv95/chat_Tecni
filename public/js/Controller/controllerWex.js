@@ -5,7 +5,7 @@ var modelWatsonResultado=require('../Model/WatsonResultado');
 var jwt = require('../services/jwt');
 var moment= require('moment');
 var JsonFind = require('json-find');
-
+const storage = require('node-sessionstorage')
 const util = require('util');
 const controllerWatson={};
 const anoComercial=360;
@@ -31,33 +31,43 @@ var assistant = new watson.AssistantV1({
 });
 
 
+
+
 controllerWatson.postEnviarMensajeWex =async(req,res)=>{
   var mensaje=req.body.texto;
-    var context=new modelWatsonResultado(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,false);
-    if(req.session.context!=undefined){
-      context=req.session.context;
+  var id=req.body.id;
+  //console.log(storage.getItem(id));
+  var context=new modelWatsonResultado(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,false,null);
+    if(storage.getItem(id)!=undefined){
+      context=storage.getItem(id);
     };
-    var resWatson=await consultaWatson(mensaje,context,req);
+    
+    var resWatson=await consultaWatson(mensaje,context,req,id);
     await decisionDialogos(resWatson,req);
+    //await telegram.enviarTexto(resWatson);
     res.send({resWatson});
 }
-async function consultaWatson(mensaje,contexto,req){
+async function consultaWatson(mensaje,contexto,req,id){
   var watsonPromise = util.promisify(assistant.message.bind(assistant));
   var conversacion = await watsonPromise.call(assistant, {
     workspace_id: credencialesWex.principal.wconv_workspaceId,
     input: {'text': mensaje},
     context:contexto
   }); 
-  req.session.context=conversacion.context;
+  storage.setItem(id, conversacion.context)
+  //req.session.context=conversacion.context;
+
+  
   return conversacion;
 }
+
 //funciones para consultar prestamos
 async function decisionDialogos(watsonResultado,req){
   var entidad=watsonResultado.entities;
   var intencion=watsonResultado.intents;
   console.log(watsonResultado.output.nodes_visited[0]);
   //slots con dialoge_node
-  /* if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {
+  if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {
       
     for (var i in entidad) {
         if(entidad[i].entity=="MARCA_VEHICILO" ){
@@ -67,21 +77,26 @@ async function decisionDialogos(watsonResultado,req){
       if(watsonResultado.context.MARCA_VEHICILO!=null){
          FuncionMarcasModelos(watsonResultado,watsonResultado.context.MARCA_VEHICILO); 
       }
-  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989'||escorrecto==false) {    
-   //fecha del vehiculo
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989'||escorrecto==false) {       
+    //fecha del vehiculo   
     var a= new Date().getFullYear();
     for (var i in entidad) {
       if (entidad[i].entity=='sys-date') {
         escorrecto = verificarA(watsonResultado.context.Ano_Modelo,a);
         if (escorrecto==false) {
           watsonResultado.context.Ano_Modelo=null;
-          watsonResultado.output.generic[0]="ingrese un valor entre "+Math.abs(a-17)+" - "+(a+1);
+          watsonResultado.output.generic[0].response_type="text";
+          watsonResultado.output.generic[0].text="ingrese un valor entre "+Math.abs(a-17)+" - "+(a+1);
           watsonResultado.output.text="ingrese un valor entre "+Math.abs(a-17)+" - "+(a+1);
           watsonResultado.context.system.dialog_stack[0]={"dialog_node": "slot_6_1570033774989", "state": "in_progress"}; 
+        }else{
+          //llenado arreglo aseguradoras para su uso
+          watsonResultado.context.MODELO_VEHICULO = await watsonResultado.context.MODELO_VEHICULO.replace(/[\(\)]+/g,"");
+          watsonResultado.context.arregloAseguradoras= await validaciones.leerReglasTecniseguros(watsonResultado.context.MARCA_VEHICILO,watsonResultado.context.modelo)
         }
       }      
     }
-  } else  */if (watsonResultado.output.nodes_visited[0]=="node_10_1566352695700" /* watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false */) {
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false) {
    //validar cedula
     for(var i in entidad){
       if (entidad[i].entity=="documentos" && entidad[i].value=="doc") {
@@ -91,32 +106,41 @@ async function decisionDialogos(watsonResultado,req){
         cedula = await validarCedula(watsonResultado);
         if (cedula==false) {
           watsonResultado.context.cedula=null;
-          watsonResultado.output.generic[0]="ingrese un numero de cedula valido";
+          watsonResultado.output.generic[0].response_type="text";
+          watsonResultado.output.generic[0].text="ingrese un numero de cedula valido"
           watsonResultado.output.text="ingrese un numero de cedula valido";
           watsonResultado.context.system.dialog_stack[0]={"dialog_node": "slot_8_1570037277161", "state": "in_progress"};           
         }
-        else{
-          await CalcularPrima(watsonResultado);
-        }
       }
     }
+  }else if (watsonResultado.output.nodes_visited[0]=="node_3_1570721329080"){
+    //Lista aseguradoras
+    await PresentarAseguradoras(watsonResultado);
   }
 }
 
-//calculo de prima
-async function CalcularPrima(watsonResultado){
-  watsonResultado.context.MARCA_VEHICILO="CHEVROLET";
-  watsonResultado.context.modelo="(1100)";
-  watsonResultado.context.modelo= await watsonResultado.context.modelo.replace(/[\(\)]+/g,"");
-  var a= await validaciones.leerReglasTecniseguros("CHEVROLET","1100")
-  console.log("AQUI");
-  console.log(a);
-  //con que nodo se realiza este paso slot_8_1570036729147   slot_4_1570036931289
-  /* if (watsonResultado.context.Ano_Modelo) {
-    
+//Presentar Aseguradoras
+async function PresentarAseguradoras(watsonResultado){
+  var Aseguradoras=[{response_type:"option",title:"Selecciona una aseguradora:",options: []}];
+  if (watsonResultado.context.arregloAseguradoras.length>0) {    
+    for(var i in watsonResultado.context.arregloAseguradoras){
+      Aseguradoras[0].options.push({
+        label:watsonResultado.context.arregloAseguradoras[i].Aseguradora,
+        value:{ input:{ text: watsonResultado.context.arregloAseguradoras[i].Aseguradora }}
+      });
+    }
+    watsonResultado.output.generic=Aseguradoras;
   }
-  watsonResultado.context.primaNeta=watsonResultado.context.tasa*watsonResultado.context.Monto_Vehiculo;
-  watsonResultado.context.primeCuota=watsonResultado.context.primaNeta/watsonResultado.context.cuotas; */
+  else{
+    watsonResultado.context.arregloAseguradoras = null;
+    watsonResultado.output.generic[0].response_type="text";
+    watsonResultado.output.generic[0].text="La marca o el modelo ingresados no pueden ser cotizados";
+  }
+}
+
+//Calculos
+async function Calcular(watsonResultado){
+  if(watsonResultado.input.text){}
 }
 
 //valida el nuero de cedula
@@ -138,10 +162,10 @@ async function validarCedula(watsonResultado){
 //Marcas y modelos
 function FuncionMarcasModelos(watsonResultado,value){
   var jsonMarcasModelos= JsonFind(listaMarcasModelos);
-  var MarcaModelo={response_type:"option",title:"Gracias, por favor selecciona el modelo del vehículo para continuar😉😉",options: []}
+  var MarcaModelo=[{response_type:"option",title:"Gracias, por favor selecciona el modelo del vehículo para continuar😉😉",options: []}]
   for(var i in jsonMarcasModelos.checkKey(value)){
-      MarcaModelo.options.push({
-        label:jsonMarcasModelos.checkKey(value)[i],
+      MarcaModelo[0].options.push({
+        label:"("+jsonMarcasModelos.checkKey(value)[i]+")" ,
         value:{ input:{ text: "("+jsonMarcasModelos.checkKey(value)[i]+")" }}
       });
   }

@@ -1,7 +1,8 @@
 module.exports =class WatsonResulado{
     
     constructor (nombresCotizacion,Provincias,telefono,Ano_Modelo,Monto_Vehiculo,MODELO_VEHICULO,MARCA_VEHICILO,correo,cedula,
-        primaNeta,primaAnual,tasa,cuotas,Coberturas,Exclusiones,aseguradoras,asignarAsesor){
+        primaNeta,primaAnual,tasa,cuotas,Coberturas,Exclusiones,aseguradoras,asignarAsesor,arregloAseguradoras){
+        this.arregloAseguradoras;
         this.aseguradoras=aseguradoras;
         this.nombresCotizacion=nombresCotizacion
         this.Provincias=Provincias

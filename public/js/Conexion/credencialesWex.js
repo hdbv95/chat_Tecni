@@ -20,6 +20,8 @@ var tramos={
         bd:"ChatTecniseguros",
         user:"" ,//"amin",
         pwd:"" //"123"
+    },telegram:{
+        key:"871114400:AAFdQ_WFJUZnKETOljraGfdtUxZakzzbDlA"
     }
 }
 
