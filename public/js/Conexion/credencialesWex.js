@@ -21,7 +21,7 @@ var tramos={
         user:"" ,//"amin",
         pwd:"" //"123"
     },telegram:{
-        key:"871114400:AAFdQ_WFJUZnKETOljraGfdtUxZakzzbDlA"
+        key:"799031037:AAHD11msHm5REICs5B50tWk5c65QcpyNC20"
     }
 }
 

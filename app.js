@@ -193,7 +193,9 @@ bot.on('message', msg => {
         }
  
 		var output=await JSON.parse(body).resWatson.output;
-		console.log(await JSON.parse(body).resWatson);
+		var arreglo=[]
+		console.log(arreglo.length);
+		console.log(await JSON.parse(body).resWatson.context.arregloAseguradoras);
         for(var i in output.generic){
             if(output.generic[i].response_type=="text"){
                 await bot.sendMessage(msg.chat.id,output.generic[i].text);  

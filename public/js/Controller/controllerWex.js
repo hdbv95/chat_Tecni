@@ -65,7 +65,6 @@ async function consultaWatson(mensaje,contexto,req,id){
 async function decisionDialogos(watsonResultado,req){
   var entidad=watsonResultado.entities;
   var intencion=watsonResultado.intents;
-  console.log(watsonResultado.output.nodes_visited[0]);
   //slots con dialoge_node
   if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {      
     for (var i in entidad) {
@@ -88,13 +87,13 @@ async function decisionDialogos(watsonResultado,req){
           watsonResultado.output.generic[0].text="ingrese un valor entre "+Math.abs(a-17)+" - "+(a+1);
           watsonResultado.output.text="ingrese un valor entre "+Math.abs(a-17)+" - "+(a+1);
           watsonResultado.context.system.dialog_stack[0]={"dialog_node": "slot_6_1570033774989", "state": "in_progress"}; 
-        }else{
-          //llenado arreglo aseguradoras para su uso
-          watsonResultado.context.MODELO_VEHICULO = await watsonResultado.context.MODELO_VEHICULO.replace(/[\(\)]+/g,"");
-          watsonResultado.context.arregloAseguradoras = await validaciones.leerReglasTecniseguros(watsonResultado.context.MARCA_VEHICILO,watsonResultado.context.MODELO_VEHICULO)
         }
       }      
     }
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_8_1570033947405' || watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_7_1570034829464'){
+    //llenado arreglo aseguradoras para su uso
+    watsonResultado.context.MODELO_VEHICULO = await watsonResultado.context.MODELO_VEHICULO.replace(/[\(\)]+/g,"");
+    watsonResultado.context.arregloAseguradoras = await validaciones.leerReglasTecniseguros(watsonResultado)
   }else if (watsonResultado.context.system.dialog_stack[0].dialog_node ==  'slot_8_1570037277161' || cedula == false) {
    //validar cedula
     for(var i in entidad){
@@ -109,14 +108,12 @@ async function decisionDialogos(watsonResultado,req){
           watsonResultado.output.generic[0].text="ingrese un numero de cedula valido"
           watsonResultado.output.text="ingrese un numero de cedula valido";
           watsonResultado.context.system.dialog_stack[0]={"dialog_node": "slot_8_1570037277161", "state": "in_progress"};
-        }else{
-          await PresentarAseguradoras(watsonResultado);
         }
       }
     }
   }else if (watsonResultado.output.nodes_visited[0]=="node_3_1570721329080"){
     //Lista aseguradoras
-    await PresentarAseguradoras(watsonResultado);
+    //await PresentarAseguradoras(watsonResultado);
   }
 }
 
