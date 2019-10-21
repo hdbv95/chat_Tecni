@@ -179,6 +179,7 @@ server.listen(appEnv.port, '0.0.0.0', function() {
 });
 
 bot.on('message', msg => {
+	console.log(msg);
     Request.post({
         "headers": { "content-type": "application/json" },
         "url": "http://localhost:6001/vehiculo/enviarMensaje",
@@ -193,9 +194,10 @@ bot.on('message', msg => {
         }
  
 		var output=await JSON.parse(body).resWatson.output;
-		var arreglo=[]
-		console.log(arreglo.length);
-		console.log(await JSON.parse(body).resWatson.context.arregloAseguradoras);
+		//var arreglo=[]
+		/* 
+		console.log(arreglo.length);*/
+		//console.log(await JSON.parse(body).resWatson); 
         for(var i in output.generic){
             if(output.generic[i].response_type=="text"){
                 await bot.sendMessage(msg.chat.id,output.generic[i].text);  
