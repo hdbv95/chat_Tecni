@@ -179,7 +179,7 @@ server.listen(appEnv.port, '0.0.0.0', function() {
 });
 
 bot.on('message', msg => {
-	console.log(msg);
+	
     Request.post({
         "headers": { "content-type": "application/json" },
         "url": "http://localhost:6001/vehiculo/enviarMensaje",
@@ -192,7 +192,7 @@ bot.on('message', msg => {
             console.log("error");
             return console.dir(error);
         }
- 
+		console.log(JSON.parse(body));
 		var output=await JSON.parse(body).resWatson.output;
 		//var arreglo=[]
 		/* 

@@ -12,7 +12,7 @@ const anoComercial=360;
 var escorrecto=false;
 //var cedula=false;
 const listaMarcasModelos = {"CHEVROLET":["11000","4X4","ALTO","ASKA","ASTRA","AVALANCE","AVEO","BLAZER","C1500","CAMARO","CAMINO","CAPTIVA","CAVALIER","CHASIS","CHEVYTAXI","CHEYENNE","CHR","CK","COBALT","CORSA","CRUZE","CY251L","CYZ51L","LUV","ENJOY","ESTEEM","EXR","FORSA","FRR","FSR","FTR","FVR","FVZ","GEMINI","GRAN-BLAZER","GRAND-VITARA","GRAND-VITARA-SZ","ISUZU","JIMNY","KODIAK","LUV","MALIBU","MICROBUS","N200","N300","NHR","NKR","NLR","NMR","NMR85H","NMR85HC","NPR","NPR71L","NPR71P","NQR","NQR71L","NQR85L","OPTRA","ORLANDO","RODEO","SAIL","SAN-REMO","SILVERADO","SPARK","SPORT SIDE","SUPER BRIGADIER","SUPER-CARRY","SWIFT","TAHOE","TAXI","TRACKER","TRACTO-CAMION","TRAILBLAZER","TROOPER","VANN300","VECTRA","VITARA","VIVANT","ZAFIRA","GRAND VITARA","TRAIL BLAZER","GRAND BLAZER","TRAIL","NP200","CHASIS CABINADO NKR","SAMURAI","TRAX","CYZ51P","D-MAX","CHASIS TORPEDO","ELF","SONIC","EQUINOX","NMR 85H PARTNER","BEAT","CAVALIER SPORT LT"],
-"KIA":["CADENZA","CARENS","CARNIVAL","CERATO","CERES","K2700","K3000","KIA","MAGENTIS","OPIRUS","OPTIMA","PALIO","PICANTO","PREGIO","RIO","RONDO","SORENTO","SOUL","SPECTRA","SPORTAGE","XCITE","MOHAVE","ÓPTIMA","QUORIS","GRAND PREGIO","RÍO","BESTA","NIRO","STINGER","X3"],
+"KIA":["CADENZA","CARENS","CARNIVAL","CERATO","CERES","K2700","K3000","KIA","MAGENTIS","OPIRUS","OPTIMA","PALIO","PICANTO","PREGIO","RIO","RONDO","SORENTO","SOUL","SPECTRA","SPORTAGE","XCITE","MOHAVE","ÓPTIMA","QUORIS","GRAND PREGIO","BESTA","NIRO","STINGER","X3"],
 "RENAULT":["CLIO","DUSTER","GT","KANGOO","KERAX","KOLES","LAGUNA","MEGANE","LOGAN","SANDERO"],
 "SUZUKI":["VITARA","X3","SCROSS","DL1000A","GS125","GD110","SAMURAI","XF650","TS","SUPER CARRY"],
 "TOYOTA":["4 RUNNER","CAMRY","COROLLA","FORTUNER","HILUX","PRIUS","LEXUS","KORONA","SAMURAY","COUPE"],
@@ -98,13 +98,6 @@ async function decisionDialogos(watsonResultado,req){
     //llenado arreglo aseguradoras para su uso
     watsonResultado.context.MODELO_VEHICULO = await watsonResultado.context.MODELO_VEHICULO.replace(/[\(\)]+/g,"");
     watsonResultado.context.arregloAseguradoras = await validaciones.leerReglasTecniseguros(watsonResultado);
-    if(watsonResultado.context.cedula != undefined ||watsonResultado.context.cedula != null || watsonResultado.context.cedula != ""){
-      for(var contador in watsonResultado.context.arregloAseguradoras ){
-        var texto = "La aseguradora "+watsonResultado.context.arregloAseguradoras[contador].Aseguradora+" con tasa de % "+watsonResultado.context.arregloAseguradoras[contador].tasa+" con un plan anual de $ "+watsonResultado.context.arregloAseguradoras[contador].MontoMaximo+" y hasta "+watsonResultado.context.arregloAseguradoras[contador].cuotas+" cuotas (Con cargo a Tarjeta de Crédito), tiene prima neta de "+watsonResultado.context.arregloAseguradoras[contador].primaNeta+" $ y una prima anual de "+watsonResultado.context.arregloAseguradoras[contador].primaAnual+" $";
-        var respuesta={ response_type: 'text', text:texto };
-        watsonResultado.output.generic.push(respuesta);
-      }
-    }
   }else if (watsonResultado.output.nodes_visited[0] ==  'slot_8_1570037277161') {
    //validar cedula
     for(var i in entidad){
@@ -128,11 +121,14 @@ async function decisionDialogos(watsonResultado,req){
         }
       }
     }
-  }else if (watsonResultado.output.nodes_visited[0] ==  'node_4_1570033904165') {
-    for(var contador in watsonResultado.context.arregloAseguradoras ){
-      var texto = "La aseguradora "+watsonResultado.context.arregloAseguradoras[contador].Aseguradora+" con tasa de % "+watsonResultado.context.arregloAseguradoras[contador].tasa+" con un plan anual de $ "+watsonResultado.context.arregloAseguradoras[contador].MontoMaximo+" y hasta "+watsonResultado.context.arregloAseguradoras[contador].cuotas+" cuotas (Con cargo a Tarjeta de Crédito), tiene prima neta de "+watsonResultado.context.arregloAseguradoras[contador].primaNeta+" $ y una prima anual de "+watsonResultado.context.arregloAseguradoras[contador].primaAnual+" $";
-      var respuesta={ response_type: 'text', text:texto };
-      watsonResultado.output.generic.push(respuesta);
+  }else if(watsonResultado.context.cedula != "" && watsonResultado.context.cedula != undefined &&  (watsonResultado.context.system.dialog_stack[0].dialog_node == 'handler_10_1570033947462' ||  watsonResultado.output.nodes_visited[0]=="slot_8_1570033947405")){
+    console.log("entro")
+    if(watsonResultado.context.cedula != undefined ||watsonResultado.context.cedula != null || watsonResultado.context.cedula != ""){
+      for(var contador in watsonResultado.context.arregloAseguradoras ){
+        var texto = "La aseguradora "+watsonResultado.context.arregloAseguradoras[contador].Aseguradora+" con tasa de % "+watsonResultado.context.arregloAseguradoras[contador].tasa+" con un plan anual de $ "+watsonResultado.context.arregloAseguradoras[contador].MontoMaximo+" y hasta "+watsonResultado.context.arregloAseguradoras[contador].cuotas+" cuotas (Con cargo a Tarjeta de Crédito), tiene prima neta de "+watsonResultado.context.arregloAseguradoras[contador].primaNeta+" $ y una prima anual de "+watsonResultado.context.arregloAseguradoras[contador].primaAnual+" $";
+        var respuesta={ response_type: 'text', text:texto };
+        watsonResultado.output.generic.push(respuesta);
+      }
     }
   }
 }

@@ -1,18 +1,105 @@
 [{
 "Marca":"CHEVROLET","Aseguradoras":[
             { "Nombre":"SEGUROS EQUINOCCIAL","Resultado":
-            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["11000","4X4","ALTO"]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["ASKA","ASTRA","AVALANCE"]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["AVEO","BLAZER","C1500"]}]
+            [{"MontoMaximo":100.000, "tasa":1.1 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["11000","4X4","ALTO","CAMARO","CAMINO","CAPTIVA","CAVALIER","CHASIS","CHEVYTAXI","CHEYENNE","CHR"]},
+            {"MontoMaximo":300.000, "tasa":1.4 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["ASKA","ASTRA","AVALANCE","CK","COBALT","CORSA","CRUZE","CY251L","CYZ51L","LUV","ENJOY","ESTEEM","EXR","FORSA","FRR","FSR","FTR","FVR","FVZ","GEMINI"]},
+            {"MontoMaximo":400.000, "tasa":1.5 , "cuotas":15 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["AVEO","BLAZER","C1500","GRAN-BLAZER","GRAND-VITARA","GRAND-VITARA-SZ","ISUZU","JIMNY","KODIAK","LUV","MALIBU","MICROBUS","N200","N300","NHR","NKR"]}]
             },
             { "Nombre":"MAPFRE","Resultado":
-            [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["11000","CAMINO","CAPTIVA"]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAVALIER","CHASIS","CHEVYTAXI"]},
-            {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CHEYENNE","CHR","CK"]}]
+            [{"MontoMaximo":150.000, "tasa":1.0 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["11000","CAMINO","CAPTIVA","SILVERADO","SPARK","SPORT SIDE","SUPER BRIGADIER","SUPER-CARRY","SWIFT","TAHOE","TAXI","TRACKER","TRACTO-CAMION","TRAILBLAZER"]},
+            {"MontoMaximo":450.000, "tasa":1.4 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAVALIER","CHASIS","CHEVYTAXI","TROOPER","VANN300","VECTRA","VITARA","VIVANT","ZAFIRA","GRAND VITARA","TRAIL BLAZER","GRAND BLAZER","TRAIL","NP200"]},
+            {"MontoMaximo":300.000, "tasa":1.2 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CHEYENNE","CHR","CK", "CHASIS CABINADO NKR","SAMURAI","TRAX","CYZ51P","D-MAX","CHASIS TORPEDO","ELF","SONIC","EQUINOX","NMR 85H PARTNER","BEAT","CAVALIER SPORT LT"]}]
+            },
+            { "Nombre":"LIBERTY SEGUROS","Resultado":
+            [{"MontoMaximo":150.000, "tasa":1.0 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["SUPER BRIGADIER","SUPER-CARRY","SWIFT","TAHOE","TAXI"]},
+            {"MontoMaximo":450.000, "tasa":1.4 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["VITARA","VIVANT","ZAFIRA","GRAND VITARA","TRAIL BLAZER"]},
+            {"MontoMaximo":300.000, "tasa":1.2 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CYZ51P","D-MAX","CHASIS TORPEDO","ELF","SONIC","EQUINOX","NMR 85H PARTNER","BEAT","CAVALIER SPORT LT"]}]
+            },
+            { "Nombre":"SALUD S.A","Resultado":
+            [{"MontoMaximo":130.000, "tasa":1.5 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["SUPER-CARRY","SWIFT","TAHOE","TAXI","TRACKER","TRACTO-CAMION","TRAILBLAZER"]},
+            {"MontoMaximo":150.000, "tasa":1.4 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CAVALIER","CHASIS","CHEVYTAXI","GRAND BLAZER","TRAIL","NP200" ]},
+            {"MontoMaximo":330.000, "tasa":1.6 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CHEYENNE","CYZ51P","D-MAX","CHASIS TORPEDO","ELF","SONIC","EQUINOX","CAVALIER SPORT LT"]}]
             }
         ]
+},
+{
+    "Marca":"KIA","Aseguradoras":[
+                { "Nombre":"SEGUROS EQUINOCCIAL","Resultado":
+                [{"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CADENZA","CARENS","CARNIVAL","CERATO","CERES","K2700","K3000","KIA","MAGENTIS"]},
+                {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["OPIRUS","OPTIMA","PALIO","PICANTO","PREGIO","RIO","RONDO","SORENTO","SOUL","SPECTRA","SPORTAGE"]},
+                {"MontoMaximo":100.000, "tasa":1.5 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["XCITE","MOHAVE","ÓPTIMA","QUORIS","GRAND PREGIO","BESTA","NIRO","STINGER","X3"]}]
+                },
+                { "Nombre":"LIBERTY SEGUROS","Resultado":
+                [{"MontoMaximo":150.000, "tasa":1.0 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CARENS","CARNIVAL","CERATO","CERES","K2700"]},
+                {"MontoMaximo":450.000, "tasa":1.4 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["RIO","RONDO","SORENTO","SOUL","SPECTRA","SPORTAGE"]},
+                {"MontoMaximo":300.000, "tasa":1.2 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["XCITE","MOHAVE","ÓPTIMA","QUORIS","GRAND PREGIO"]}]
+                },
+                { "Nombre":"SALUD S.A","Resultado":
+                [{"MontoMaximo":130.000, "tasa":1.7 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CERATO","CERES","K2700","K3000","KIA","MAGENTIS"]},
+                {"MontoMaximo":150.000, "tasa":1.2 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["PICANTO","PREGIO","RIO","RONDO","SORENTO" ]},
+                {"MontoMaximo":330.000, "tasa":1.6 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["ÓPTIMA","QUORIS","GRAND PREGIO","BESTA","NIRO"]}]
+                }
+            ]
+},
+{
+    "Marca":"RENAULT","Aseguradoras":[
+                { "Nombre":"SEGUROS EQUINOCCIAL","Resultado":
+                [{"MontoMaximo":100.000, "tasa":1.2 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CLIO","DUSTER","GT","KANGOO"]},
+                {"MontoMaximo":120.000, "tasa":1.22 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["KERAX","KOLES","LAGUNA"]},
+                {"MontoMaximo":130.000, "tasa":1.46 , "cuotas":13 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["MEGANE","LOGAN","SANDERO"]}]
+                },
+                { "Nombre":"MAPFRE","Resultado":
+                [{"MontoMaximo":22.000, "tasa":1.3 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["MEGANE","LOGAN","SANDERO"]},
+                {"MontoMaximo":50.000, "tasa":1.6 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["KOLES","LAGUNA"]},
+                {"MontoMaximo":13.000, "tasa":1.7 , "cuotas":20 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["GT","KANGOO"]}]
+                },
+                { "Nombre":"LIBERTY SEGUROS","Resultado":
+                [{"MontoMaximo":34.000, "tasa":1.9 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["GT","KANGOO"]}]
+                }
+            ]
+},
+{
+    "Marca":"SUZUKI","Aseguradoras":[
+                { "Nombre":"LIBERTY SEGUROS","Resultado":
+                [{"MontoMaximo":200.000, "tasa":1.2 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["VITARA","X3","SCROSS"]},
+                {"MontoMaximo":44.000, "tasa":1.3 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["DL1000A","GS125","GD110"]},
+                {"MontoMaximo":90.000, "tasa":1.4 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["SAMURAI","XF650","TS","SUPER CARRY"]}]
+                },
+                { "Nombre":"MAPFRE","Resultado":
+                [{"MontoMaximo":14.000, "tasa":1.5 , "cuotas":9 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["SAMURAI","XF650","TS","SUPER CARRY"]},
+                {"MontoMaximo":34.000, "tasa":1.6 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["DL1000A","GS125"]},
+                {"MontoMaximo":36.000, "tasa":1.7 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["VITARA"]}]
+                }
+            ]
+},
+{
+    "Marca":"TOYOTA","Aseguradoras":[
+                { "Nombre":"SEGUROS EQUINOCCIAL","Resultado":
+                [{"MontoMaximo":30.000, "tasa":1.2 , "cuotas":9 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["4 RUNNER","CAMRY"]},
+                {"MontoMaximo":40.000, "tasa":1.3 , "cuotas":8 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["COROLLA","FORTUNER","HILUX"]},
+                {"MontoMaximo":50.000, "tasa":1.4 , "cuotas":7 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["PRIUS","LEXUS","KORONA","SAMURAY","COUPE"]}]
+                },
+                { "Nombre":"MAPFRE","Resultado":
+                [{"MontoMaximo":60.000, "tasa":1.5 , "cuotas":9 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["PRIUS","LEXUS","KORONA"]},
+                {"MontoMaximo":70.000, "tasa":1.6 , "cuotas":11 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["HILUX"]},
+                {"MontoMaximo":80.000, "tasa":1.7 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["4 RUNNER","CAMRY"]}]
+                }
+            ]
+},
+{
+    "Marca":"VOLKSWAGEN","Aseguradoras":[
+        { "Nombre":"LIBERTY SEGUROS","Resultado":
+            [{"MontoMaximo":150.000, "tasa":1.0 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["SPACE","T5","TIGUAN","VENTO"]},
+            {"MontoMaximo":450.000, "tasa":1.4 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["AMAROK","BORA","BETTLE"]},
+            {"MontoMaximo":300.000, "tasa":1.2 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["VOLVO","VOYAGE","NEW JETTA"]}]
+            },
+            { "Nombre":"SALUD S.A","Resultado":
+            [{"MontoMaximo":130.000, "tasa":1.7 , "cuotas":10 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["CERATO","TIGUAN","VENTO"]},
+            {"MontoMaximo":150.000, "tasa":1.2 , "cuotas":12 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["BETTLE"]},
+            {"MontoMaximo":330.000, "tasa":1.6 , "cuotas":18 , "Coberturas":["","",""], "Exclusiones":["","",""], "Modelos":["VOLVO","VOYAGE","NEW JETTA"]}]
+            }
+            ]
 }
- 
 ]
 
 
