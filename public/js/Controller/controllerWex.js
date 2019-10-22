@@ -9,8 +9,8 @@ const storage = require('node-sessionstorage')
 const util = require('util');
 const controllerWatson={};
 const anoComercial=360;
-var escorrecto=false;
-//var cedula=false;
+
+
 const listaMarcasModelos = {"CHEVROLET":["11000","4X4","ALTO","ASKA","ASTRA","AVALANCE","AVEO","BLAZER","C1500","CAMARO","CAMINO","CAPTIVA","CAVALIER","CHASIS","CHEVYTAXI","CHEYENNE","CHR","CK","COBALT","CORSA","CRUZE","CY251L","CYZ51L","LUV","ENJOY","ESTEEM","EXR","FORSA","FRR","FSR","FTR","FVR","FVZ","GEMINI","GRAN-BLAZER","GRAND-VITARA","GRAND-VITARA-SZ","ISUZU","JIMNY","KODIAK","LUV","MALIBU","MICROBUS","N200","N300","NHR","NKR","NLR","NMR","NMR85H","NMR85HC","NPR","NPR71L","NPR71P","NQR","NQR71L","NQR85L","OPTRA","ORLANDO","RODEO","SAIL","SAN-REMO","SILVERADO","SPARK","SPORT SIDE","SUPER BRIGADIER","SUPER-CARRY","SWIFT","TAHOE","TAXI","TRACKER","TRACTO-CAMION","TRAILBLAZER","TROOPER","VANN300","VECTRA","VITARA","VIVANT","ZAFIRA","GRAND VITARA","TRAIL BLAZER","GRAND BLAZER","TRAIL","NP200","CHASIS CABINADO NKR","SAMURAI","TRAX","CYZ51P","D-MAX","CHASIS TORPEDO","ELF","SONIC","EQUINOX","NMR 85H PARTNER","BEAT","CAVALIER SPORT LT"],
 "KIA":["CADENZA","CARENS","CARNIVAL","CERATO","CERES","K2700","K3000","KIA","MAGENTIS","OPIRUS","OPTIMA","PALIO","PICANTO","PREGIO","RIO","RONDO","SORENTO","SOUL","SPECTRA","SPORTAGE","XCITE","MOHAVE","ÓPTIMA","QUORIS","GRAND PREGIO","BESTA","NIRO","STINGER","X3"],
 "RENAULT":["CLIO","DUSTER","GT","KANGOO","KERAX","KOLES","LAGUNA","MEGANE","LOGAN","SANDERO"],
@@ -68,6 +68,7 @@ async function decisionDialogos(watsonResultado,req){
   console.log("=======");
   console.log(watsonResultado.context.system.dialog_stack);
   console.log(watsonResultado.output.nodes_visited[0]);
+  console.log(watsonResultado);
   console.log("=======");
   //slots con dialoge_node
   if (watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_8_1569603268764' || watsonResultado.context.system.dialog_stack[0].dialog_node =='slot_5_1569606354157') {      
@@ -79,12 +80,12 @@ async function decisionDialogos(watsonResultado,req){
       if(watsonResultado.context.MARCA_VEHICILO!=null){
          FuncionMarcasModelos(watsonResultado,watsonResultado.context.MARCA_VEHICILO); 
       }
-  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989'||escorrecto == false) {       
+  }else if (watsonResultado.context.system.dialog_stack[0].dialog_node == 'slot_6_1570033774989' ||watsonResultado.context.system.dialog_stack[0].dialog_node=="node_4_1570033752785") {       
     //fecha del vehiculo   
     var a= new Date().getFullYear();
     for (var i in entidad) {
       if (entidad[i].entity=='sys-date') {
-        escorrecto = verificarA(watsonResultado.context.Ano_Modelo,a);
+        var escorrecto = verificarA(watsonResultado.context.Ano_Modelo,a);
         if (escorrecto==false) {
           watsonResultado.context.Ano_Modelo=null;
           watsonResultado.output.generic[0].response_type="text";
@@ -118,43 +119,22 @@ async function decisionDialogos(watsonResultado,req){
             var respuesta={ response_type: 'text', text:texto };
             watsonResultado.output.generic.push(respuesta);
           }
+          watsonResultado.output.generic.push({ response_type: 'text', text:"Desea continuar??" });
+          watsonResultado.context.system.dialog_stack[0]={"dialog_node": "node_3_1566585263629", "state": "in_progress"};
         }
       }
     }
   }else if(watsonResultado.context.cedula != "" && watsonResultado.context.cedula != undefined &&  (watsonResultado.context.system.dialog_stack[0].dialog_node == 'handler_10_1570033947462' ||  watsonResultado.output.nodes_visited[0]=="slot_8_1570033947405")){
-    console.log("entro")
     if(watsonResultado.context.cedula != undefined ||watsonResultado.context.cedula != null || watsonResultado.context.cedula != ""){
       for(var contador in watsonResultado.context.arregloAseguradoras ){
         var texto = "La aseguradora "+watsonResultado.context.arregloAseguradoras[contador].Aseguradora+" con tasa de % "+watsonResultado.context.arregloAseguradoras[contador].tasa+" con un plan anual de $ "+watsonResultado.context.arregloAseguradoras[contador].MontoMaximo+" y hasta "+watsonResultado.context.arregloAseguradoras[contador].cuotas+" cuotas (Con cargo a Tarjeta de Crédito), tiene prima neta de "+watsonResultado.context.arregloAseguradoras[contador].primaNeta+" $ y una prima anual de "+watsonResultado.context.arregloAseguradoras[contador].primaAnual+" $";
         var respuesta={ response_type: 'text', text:texto };
         watsonResultado.output.generic.push(respuesta);
       }
+      watsonResultado.output.generic.push({ response_type: 'text', text:"Desea continuar??" });
+      watsonResultado.context.system.dialog_stack[0]={"dialog_node": "node_3_1566585263629", "state": "in_progress"};
     }
   }
-}
-
-//Presentar Aseguradoras
-async function PresentarAseguradoras(watsonResultado){
-  var Aseguradoras=[{response_type:"option",title:"Selecciona una aseguradora:",options: []}];
-  if (watsonResultado.context.arregloAseguradoras.length>0) {    
-    for(var i in watsonResultado.context.arregloAseguradoras){
-      Aseguradoras[0].options.push({
-        label:watsonResultado.context.arregloAseguradoras[i].Aseguradora,
-        value:{ input:{ text: watsonResultado.context.arregloAseguradoras[i].Aseguradora }}
-      });
-    }
-    watsonResultado.output.generic=Aseguradoras;
-  }
-  else{
-    watsonResultado.context.arregloAseguradoras = null;
-    watsonResultado.output.generic[0].response_type="text";
-    watsonResultado.output.generic[0].text="La marca o el modelo ingresados no pueden ser cotizados";
-  }
-}
-
-//Calculos
-async function Calcular(watsonResultado){
-  if(watsonResultado.input.text){}
 }
 
 //valida el nuero de cedula
