@@ -22,9 +22,9 @@ var tramos={
         pwd:"" //"123"
     },telegram:{
         key:"799031037:AAHD11msHm5REICs5B50tWk5c65QcpyNC20"
+    },facebook:{
+        token:"EAAFTZBDzFoS8BAHNANCvvf7hYFbcmz2l70lmLL0OXs5hcLYwEmUbCGb6TTGpncKQjohdQ5ZBGBkZBmJK0P6RZC6GRrQYw09azvJfENfNGKkkTu4ayuD0qJx9FaZAEITKqmluCcbNzNa4NCCWLgDFWtl5P3BMsLEA1z0rCeboHqwZDZD"
     }
 }
-
-
 
 module.exports=tramos;  
