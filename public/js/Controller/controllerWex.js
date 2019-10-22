@@ -32,8 +32,28 @@ var assistant = new watson.AssistantV1({
 
 
 
+/* app.post('/webhook', (req, res) => { 
+	let body = req.body;  
+	// Checks this is an event from a page subscription
+	if (body.object === 'page') {  
+	  // Iterates over each entry - there may be multiple if batched
+	  body.entry.forEach(function(entry) {  
+		// Gets the message. entry.messaging is an array, but 
+		// will only ever contain one message, so we get index 0
+		let webhook_event = entry.messaging[0];
+		console.log(webhook_event);
+	  });
+	  // Returns a '200 OK' response to all requests
+	  res.status(200).send('EVENT_RECEIVED');
+	} else {
+	  // Returns a '404 Not Found' if event is not from a page subscription
+	  res.sendStatus(404);
+	}  
+  }); */
+
 
 controllerWatson.postEnviarMensajeWex =async(req,res)=>{
+  res.send("PRUEBA");/* 
   var mensaje=req.body.texto;
   var id=req.body.id;
   //console.log(storage.getItem(id));
@@ -45,7 +65,7 @@ controllerWatson.postEnviarMensajeWex =async(req,res)=>{
     var resWatson=await consultaWatson(mensaje,context,req,id);
     await decisionDialogos(resWatson,req);
     //await telegram.enviarTexto(resWatson);
-    res.send({resWatson});
+    res.send({resWatson}); */
 }
 async function consultaWatson(mensaje,contexto,req,id){
   var watsonPromise = util.promisify(assistant.message.bind(assistant));
