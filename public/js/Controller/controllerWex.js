@@ -30,7 +30,7 @@ var assistant = new watson.AssistantV1({
   url: credencialesWex.principal.wconv_url
 });
 
-controllerWatson.postEnviarMensajeWex =async(req,res)=>{  
+controllerWatson.postEnviarMensajeWex =async(req,res)=>{
   var mensaje=req.body.texto;
   var id=req.body.id;
   //console.log(storage.getItem(id));
