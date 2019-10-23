@@ -30,8 +30,7 @@ var assistant = new watson.AssistantV1({
   url: credencialesWex.principal.wconv_url
 });
 
-controllerWatson.postEnviarMensajeWex =async(req,res)=>{
-  res.send("PRUEBA");/* 
+controllerWatson.postEnviarMensajeWex =async(req,res)=>{  
   var mensaje=req.body.texto;
   var id=req.body.id;
   //console.log(storage.getItem(id));
@@ -43,7 +42,7 @@ controllerWatson.postEnviarMensajeWex =async(req,res)=>{
     var resWatson=await consultaWatson(mensaje,context,req,id);
     await decisionDialogos(resWatson,req);
     //await telegram.enviarTexto(resWatson);
-    res.send({resWatson}); */
+    res.send({resWatson});
 }
 async function consultaWatson(mensaje,contexto,req,id){
   var watsonPromise = util.promisify(assistant.message.bind(assistant));
