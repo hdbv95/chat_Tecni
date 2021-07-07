@@ -30,9 +30,6 @@ var assistant = new watson.AssistantV1({
   url: credencialesWex.principal.wconv_url
 });
 
-
-
-
 controllerWatson.postEnviarMensajeWex =async(req,res)=>{
   var mensaje=req.body.texto;
   var id=req.body.id;
@@ -60,7 +57,6 @@ async function consultaWatson(mensaje,contexto,req,id){
   
   return conversacion;
 }
-
 //funciones para consultar prestamos
 async function decisionDialogos(watsonResultado,req){
   var entidad=watsonResultado.entities;

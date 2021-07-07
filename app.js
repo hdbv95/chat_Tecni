@@ -13,6 +13,7 @@ const bot = new TelegramBot(credencialesWex.telegram.key, {polling: true});
 
 
 
+
 // trust first proxy 
 app.set('trust proxy', 1) ;
 
@@ -48,9 +49,10 @@ app.use(morgan('dev'));
 
 app.use("/vehiculo",pruebaRutas);
 
-// start server on the specified port and binding host
+
 server.listen(7000, '0.0.0.0', function() {
   console.log("server starting on " + 7000);
+
 });
 
 bot.on('message', msg => {

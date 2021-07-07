@@ -1,4 +1,4 @@
-﻿//a316cd03-f42e-4f6b-9cac-cdc5fa1deb22 
+//a316cd03-f42e-4f6b-9cac-cdc5fa1deb22 
 //fd511920-1e9c-45d2-9fe8-d8824ca56ec6
 
 var tramos={
@@ -22,9 +22,9 @@ var tramos={
         pwd:"" //"123"
     },telegram:{
         key:"799031037:AAHD11msHm5REICs5B50tWk5c65QcpyNC20"
+    },facebook:{
+        token:"EAAFTZBDzFoS8BAFe9YGIvO1HzX1Fpxuz78jz3BbMZBP8ADnAmftk1XFIiBuZAnNpYSNyI1JzJ1oInI98RBCrArlBFYUktFBtoPcm6mrYWhUyNS6bndnoJ5tZAMevUDmtI1Q3uCQhgiiPeSZBZC2KRM7uON5KvYXDFqjGD8rT7ZCXAZDZD"
     }
 }
-
-
 
 module.exports=tramos;  
